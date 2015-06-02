@@ -45,7 +45,7 @@ class LIFX_Http {
         $result = $this->curlRequest("POST", $url);
         return json_decode($result, true);
     }
-
+    
     /**
      * Turn lights on, or turn lights off.
      * 
@@ -64,6 +64,24 @@ class LIFX_Http {
     }
     
     /**
+     * Set the lights to any color.
+     * 
+     * @param string $color refer to: https://developer.lifx.com/#colors
+     * @param float $duration Fade to the given state over a duration of seconds.
+     * @param boolean $poweron Turn on first? Defaults to 'true'.
+     * @param string $selector Filter default: all.
+     * @return array Returns the list of affected bulbs and their response.
+     * 
+     * https://developer.lifx.com/#set-color
+     */
+    public function setColor($color, $duration = 1, $poweron = true, $selector = "all") {
+        $url = $this->generateUrl("lights", $selector, "color");
+        $data = array("color" => $color, "duration" => $duration, "power_on" => $poweron);
+        $result = $this->curlRequest("PUT", $url, $data);
+        return json_decode($result, true);
+    }
+    
+    /**
      * Set and sends the cURL Request to the LIFX API.
      * 
      * @param string $request Method Request GET|POST|PUT.
@@ -71,7 +89,6 @@ class LIFX_Http {
      * @param array $data Post Params if needed.
      * @return string Returns the cURL response (json encoded).
      * 
-     * https://developer.lifx.com/#set-power
      */
     private function curlRequest($request, $url, $data = null){
         $curl = curl_init();
