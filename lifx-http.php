@@ -1,5 +1,4 @@
 <?php
-
 class LIFX_Http {
 
     const API_URL = 'https://api.lifx.com';
@@ -116,5 +115,4 @@ class LIFX_Http {
     private function setHeader($token) {
         $this->header = array("Authorization: Bearer " . $token);
     }
-
 }
