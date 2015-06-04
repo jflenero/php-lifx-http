@@ -5,7 +5,7 @@ class LIFX_Http {
     const API_URL = 'https://api.lifx.com';
     const API_VERSION = 'v1beta1';
 
-    protected $header;
+    private $header;
 
     /**
      * Construct the LIFX Http Client
@@ -58,7 +58,9 @@ class LIFX_Http {
      */
     public function powerLights($state, $duration = 1, $selector = "all") {
         $url = $this->generateUrl("lights", $selector, "power");
-        $data = array("state" => $state, "duration" => $duration);
+        $data = array(
+            "state" => $state, 
+            "duration" => $duration);
         $result = $this->curlRequest("PUT", $url, $data);
         return json_decode($result, true);
     }
@@ -66,7 +68,7 @@ class LIFX_Http {
     /**
      * Set the lights to any color.
      * 
-     * @param string $color refer to: https://developer.lifx.com/#colors
+     * @param string $color refer to https://developer.lifx.com/#colors
      * @param float $duration Fade to the given state over a duration of seconds.
      * @param boolean $poweron Turn on first? Defaults to 'true'.
      * @param string $selector Filter default: all.
@@ -76,7 +78,10 @@ class LIFX_Http {
      */
     public function setColor($color, $duration = 1, $poweron = true, $selector = "all") {
         $url = $this->generateUrl("lights", $selector, "color");
-        $data = array("color" => $color, "duration" => $duration, "power_on" => $poweron);
+        $data = array(
+            "color" => $color, 
+            "duration" => $duration, 
+            "power_on" => $poweron);
         $result = $this->curlRequest("PUT", $url, $data);
         return json_decode($result, true);
     }
@@ -84,9 +89,9 @@ class LIFX_Http {
     /**
      * Set and sends the cURL Request to the LIFX API.
      * 
-     * @param string $request Method Request GET|POST|PUT.
+     * @param string $request Method Request GET | POST | PUT.
      * @param string $url The URL of the request method.
-     * @param array $data Post Params if needed.
+     * @param array $data POST Params if any.
      * @return string Returns the cURL response (json encoded).
      * 
      */
